@@ -1,6 +1,7 @@
 import sympy as sym
 from sympy import exp
 
+print("Count\txold\tx0\tf(xold)\tf(x0)\txnew")
 def secMethod (func, x0, xold, tolerance = 0.0001, maxIter = 1000):
     x = sym.symbols ('x')
     
@@ -12,8 +13,16 @@ def secMethod (func, x0, xold, tolerance = 0.0001, maxIter = 1000):
         if abs(xnew - x0) < tolerance: break
         xold = x0
         x0 = xnew
+        print(f"{i}\t{xold:.4f}\t{x0:.4f}\t{func_value_old:.4f}\t{func_value:.4f}\t{xnew:.4f}")
     return xnew, i
 
+x = sym.symbols ('x')
+y = exp(-x) - x
+x_root_SEC, iterations_SEC = secMethod(y, 1, 0)
+print ("Using Secant Method, the value of the root is %.4f at %d interations" % (x_root_SEC, iterations_SEC))
+
+
+print("\nCount\tx0")
 def nRaphson(func, x0, tolerance = 0.0001, maxIter = 1000):
     x = sym.symbols ('x')
     derivfunc = sym.diff(func, x)
@@ -25,15 +34,11 @@ def nRaphson(func, x0, tolerance = 0.0001, maxIter = 1000):
         xnew = x0 - func_value / derivfunc_value
         if abs(xnew - x0) < tolerance: break
         x0 = xnew
+        print(f"{i}\t{x0:.4f}")
     return xnew, i
 
-x = sym.symbols ('x')
-
-y = exp(-x) - x
 x_root_NR, iterations_NR = nRaphson(y, 0)
 print ("Using Newton Raphson, the value of the root is %.4f at %d interations" % (x_root_NR, iterations_NR))
-x_root_SEC, iterations_SEC = secMethod(y, 1, 0)
-print ("Using Secant Method, the value of the root is %.4f at %d interations" % (x_root_SEC, iterations_SEC))
 
 # Newton Raphson Algorithm
 # 1. Find f'(x) and define Newton Raphson equation
