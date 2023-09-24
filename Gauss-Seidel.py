@@ -15,13 +15,11 @@ e = float(input("Enter tolerable error:\n"))
 
 print("\nCount\tx\ty\tz")
 while e1 > e or e2 > e or e3 > e:
-    # Calculation
     x1 = f1(x0, y0, z0)
     y1 = f2(x1, y0, z0)
     z1 = f3(x1, y1, z0)
     
 
-    # Error
     e1 = abs(x0 - x1)
     e2 = abs(y0 - y1)
     e3 = abs(z0 - z1)
@@ -29,7 +27,6 @@ while e1 > e or e2 > e or e3 > e:
     if count > 1 and e1 <= e and e2 <= e and e3 <= e:
         break  # Hentikan loop jika hasil sudah konvergen
 
-    # Set value for next iteration
     x0 = x1
     y0 = y1
     z0 = z1
