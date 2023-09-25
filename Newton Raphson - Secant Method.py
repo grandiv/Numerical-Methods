@@ -5,27 +5,6 @@ from sympy.parsing.sympy_parser import (parse_expr, standard_transformations, im
 # Transformasi supaya user lebih fleksibel memasukkan fungsi (ex: y = x^2 + 2x + 1)
 transformations = (standard_transformations + (implicit_multiplication_application, convert_xor))
 
-def secMethod(func, x0, x00, tolerance, maxIter, batasDivergen):
-    x = sym.symbols('x')
-    
-    print("Count\tx00\t\tx0\t\tf(x00)\t\tf(x0)\t\txnew\t\tepsilon")
-    for i in range(maxIter):
-        func_value = func.subs(x, x0)
-        func_value_old = func.subs(x, x00)
-        
-        if abs(x0) > batasDivergen:
-            print("Divergent")
-            return None
-        
-        xnew = x0 - func_value * (x00 - x0) / (func_value_old - func_value)
-        epsilon = abs(xnew - x0)
-        if epsilon < tolerance:
-            break
-        x00 = x0
-        x0 = xnew
-        print(f"{i}\t{x00:.6f}\t{x0:.6f}\t{func_value_old:.6f}\t{func_value:.6f}\t{xnew:.6f}\t{epsilon:.6f}")
-    return xnew, i
-
 def nRaphson(func, x0, tolerance, maxIter, batasDivergen):
     x = sym.symbols('x')
     derivfunc = sym.diff(func, x)
@@ -54,6 +33,27 @@ def nRaphson(func, x0, tolerance, maxIter, batasDivergen):
         
         x0 = xnew
         print(f"{i}\t{x0:.6f}\t{epsilon:.6f}")
+    return xnew, i
+
+def secMethod(func, x0, x00, tolerance, maxIter, batasDivergen):
+    x = sym.symbols('x')
+    
+    print("Count\tx00\t\tx0\t\tf(x00)\t\tf(x0)\t\txnew\t\tepsilon")
+    for i in range(maxIter):
+        func_value = func.subs(x, x0)
+        func_value_old = func.subs(x, x00)
+        
+        if abs(x0) > batasDivergen:
+            print("Divergent")
+            return None
+        
+        xnew = x0 - func_value * (x00 - x0) / (func_value_old - func_value)
+        epsilon = abs(xnew - x0)
+        if epsilon < tolerance:
+            break
+        x00 = x0
+        x0 = xnew
+        print(f"{i}\t{x00:.6f}\t{x0:.6f}\t{func_value_old:.6f}\t{func_value:.6f}\t{xnew:.6f}\t{epsilon:.6f}")
     return xnew, i
 
 def get_user_input(prompt, default_value):
